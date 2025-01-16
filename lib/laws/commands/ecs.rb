@@ -1,8 +1,7 @@
 module Laws
   module Commands
     class ECS
-      def initialize(ecs_helper, prompt)
-        @ecs_helper = ecs_helper
+      def initialize(prompt)
         @prompt = prompt
       end
 
@@ -22,8 +21,12 @@ module Laws
 
       private
 
+      def aws_helper
+        @aws_helper ||= AWS::ECSHelper.new
+      end
+
       def select_cluster
-        clusters = @ecs_helper.list_clusters
+        clusters = aws_helper.list_clusters
         if clusters.empty?
           puts "No clusters found in the account."
           return nil
@@ -33,18 +36,18 @@ module Laws
       end
 
       def select_task(cluster)
-        tasks = @ecs_helper.list_tasks(cluster)
+        tasks = aws_helper.list_tasks(cluster)
         if tasks.empty?
           puts "No running tasks found in cluster #{cluster}"
           return nil
         end
 
-        task_choices = @ecs_helper.create_task_choices(tasks)
+        task_choices = aws_helper.create_task_choices(tasks)
         @prompt.select("Select a task:", task_choices)
       end
 
       def select_container(task)
-        container_names = @ecs_helper.get_container_names(task)
+        container_names = aws_helper.get_container_names(task)
         if container_names.length > 1
           @prompt.select("Select a container:", container_names)
         else
