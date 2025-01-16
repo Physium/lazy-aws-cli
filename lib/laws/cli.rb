@@ -36,7 +36,7 @@ module Laws
             puts "Unknown command: #{command}"
             exit 1
           end
-        rescue Interrupt, TTY::Reader::InputInterrupt
+        rescue TTY::Reader::InputInterrupt
           puts "\nOperation cancelled."
           exit 1
         end
@@ -97,7 +97,7 @@ module Laws
         puts "#{aws_command}\n"
 
         begin
-          system(aws_command)
+          exec(aws_command)
         rescue StandardError => e
           puts "Error executing command: #{e.message}"
         end
