@@ -1,13 +1,9 @@
 module Laws
   class CLI
     def initialize
-      @options = {}
-      @ecs_helper = AWS::ECSHelper.new
-      @secretsmanager_helper = AWS::SecretsManagerHelper.new
       @prompt = TTY::Prompt.new
-
-      @ecs = Commands::ECS.new(@ecs_helper, @prompt)
-      @secretsmanager = Commands::SecretsManager.new(@secretsmanager_helper, @prompt)
+      @ecs = Commands::ECS.new(@prompt)
+      @secretsmanager = Commands::SecretsManager.new(@prompt)
     end
 
     def parse_options
