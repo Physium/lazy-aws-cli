@@ -2,10 +2,10 @@ require 'aws-sdk-secretsmanager'
 
 module Laws
   module AWS
-    class SecretsHelper < BaseHelper
+    class SecretsManagerHelper < BaseHelper
       def initialize
         super
-        @secrets_client = Aws::SecretsManager::Client.new
+        @secretsmanager_client = Aws::SecretsManager::Client.new
       end
 
       def list_secrets
@@ -13,7 +13,7 @@ module Laws
         next_token = nil
 
         loop do
-          response = @secrets_client.list_secrets(next_token: next_token)
+          response = @secretsmanager_client.list_secrets(next_token: next_token)
           secrets.concat(response.secret_list.map(&:name))
           next_token = response.next_token
           break unless next_token
@@ -23,7 +23,7 @@ module Laws
       end
 
       def get_secret_value(secret_name)
-        response = @secrets_client.get_secret_value(secret_id: secret_name)
+        response = @secretsmanager_client.get_secret_value(secret_id: secret_name)
         
         if response.secret_string
           begin
