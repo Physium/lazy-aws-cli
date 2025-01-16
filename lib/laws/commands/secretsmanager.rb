@@ -5,14 +5,14 @@ module Laws
         @prompt = prompt
       end
 
-      def get_secret_value
+      def get_secret_value # rubocop:disable Naming/AccessorMethodName
         secrets = aws_helper.list_secrets
         if secrets.empty?
-          puts "No secrets found in the account."
+          puts 'No secrets found in the account.'
           return
         end
 
-        selected_secret = @prompt.select("Select a secret:", secrets)
+        selected_secret = @prompt.select('Select a secret:', secrets)
         secret_value = aws_helper.get_secret_value(selected_secret)
 
         puts "\nSecret value:"
@@ -30,4 +30,4 @@ module Laws
       end
     end
   end
-end 
+end

@@ -28,11 +28,11 @@ module Laws
       def select_cluster
         clusters = aws_helper.list_clusters
         if clusters.empty?
-          puts "No clusters found in the account."
+          puts 'No clusters found in the account.'
           return nil
         end
 
-        @prompt.select("Select a cluster:", clusters)
+        @prompt.select('Select a cluster:', clusters)
       end
 
       def select_task(cluster)
@@ -43,34 +43,34 @@ module Laws
         end
 
         task_choices = aws_helper.create_task_choices(tasks)
-        @prompt.select("Select a task:", task_choices)
+        @prompt.select('Select a task:', task_choices)
       end
 
       def select_container(task)
         container_names = aws_helper.get_container_names(task)
         if container_names.length > 1
-          @prompt.select("Select a container:", container_names)
+          @prompt.select('Select a container:', container_names)
         else
           container_names.first
         end
       end
 
       def prompt_for_command
-        @prompt.ask("Enter command to execute (press Enter for default /bin/sh):") do |q|
-          q.default "/bin/sh"
+        @prompt.ask('Enter command to execute (press Enter for default /bin/sh):') do |q|
+          q.default '/bin/sh'
           q.modify :strip
         end
       end
 
       def execute_aws_command(cluster, task_id, container, command)
         aws_command = [
-          "aws", "ecs", "execute-command",
-          "--cluster", cluster,
-          "--task", task_id,
-          "--container", container,
-          "--interactive",
-          "--command", command
-        ].join(" ")
+          'aws', 'ecs', 'execute-command',
+          '--cluster', cluster,
+          '--task', task_id,
+          '--container', container,
+          '--interactive',
+          '--command', command
+        ].join(' ')
 
         puts "\nExecuting command:"
         puts "#{aws_command}\n"
@@ -83,4 +83,4 @@ module Laws
       end
     end
   end
-end 
+end

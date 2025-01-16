@@ -59,4 +59,4 @@ module Laws
       end
     end
   end
-end 
+end

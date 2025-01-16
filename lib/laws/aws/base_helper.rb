@@ -8,17 +8,17 @@ module Laws
       private
 
       def check_credentials!
-        config = %x{aws configure list}
+        config = `aws configure list`
         config_lines = config.split("\n")
 
         missing_vars = []
         config_lines.each do |line|
-          if line.include?("access_key") && line.include?("<not set>")
-            missing_vars << "access_key"
-          elsif line.include?("secret_key") && line.include?("<not set>")
-            missing_vars << "secret_key"
-          elsif line.include?("region") && line.include?("<not set>")
-            missing_vars << "region"
+          if line.include?('access_key') && line.include?('<not set>')
+            missing_vars << 'access_key'
+          elsif line.include?('secret_key') && line.include?('<not set>')
+            missing_vars << 'secret_key'
+          elsif line.include?('region') && line.include?('<not set>')
+            missing_vars << 'region'
           end
         end
 
@@ -27,7 +27,7 @@ module Laws
         puts "\n⚠️ AWS credentials not found!"
         puts "\nPlease either:"
         puts "1. Run 'aws configure' to set up your AWS credentials"
-        puts "2. Or set the following environment variables:"
+        puts '2. Or set the following environment variables:'
         missing_vars.each do |var|
           puts "     export #{var.upcase}=your_#{var}"
         end
@@ -36,4 +36,4 @@ module Laws
       end
     end
   end
-end 
+end
