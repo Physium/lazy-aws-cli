@@ -24,7 +24,7 @@ module Laws
 
       def get_secret_value(secret_name)
         response = @secretsmanager_client.get_secret_value(secret_id: secret_name)
-        
+
         if response.secret_string
           begin
             JSON.parse(response.secret_string)
@@ -32,7 +32,7 @@ module Laws
             response.secret_string
           end
         else
-          response.secret_binary.unpack('m')[0]
+          response.secret_binary.unpack1('m')
         end
       rescue Aws::SecretsManager::Errors::ServiceError => e
         puts "Error retrieving secret: #{e.message}"
@@ -40,4 +40,4 @@ module Laws
       end
     end
   end
-end 
+end
