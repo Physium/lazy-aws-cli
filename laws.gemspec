@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.metadata['source_code_uri'] = spec.homepage
   spec.metadata['rubygems_mfa_required'] = 'true'
 
-  spec.files = Dir['lib/**/*', 'bin/*', '*.gemspec', 'README.md']
+  spec.files = Dir['lib/**/*', 'bin/*', '*.gemspec', 'README.md', 'LICENSE']
   spec.bindir = 'bin'
   spec.executables = ['laws']
   spec.require_paths = ['lib']
